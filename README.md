@@ -25,4 +25,4 @@ let input = fs.readFileSync(filePath).toString().split('\n');
 
 - 1차원 배열 문제 (7개)
 - 함수 문제 (2개)
-- 문자열 문제 (8 / 10개)
+- 문자열 문제 (10개)
