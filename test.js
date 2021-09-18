@@ -1,30 +1,40 @@
 let start = new Date();
 // ----------------- code -----------------
-/*
-0 <= input <= 99 -> 정수
-input < 10 -> 0을 붙여 두자리로 만들고 각 자리의 숫자를 더함
-가장 작은 자리수와 
-*/
+
 const fs = require('fs');
 const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
-let input = fs.readFileSync(filePath).toString().split('\n');
-
+let input = fs.readFileSync(filePath).toString().trim().split('\n');
+input = input[0];
 let count = 0;
-let prevNum = Number(input[0]);
-let num = Number(input[0]);
+const ctAlphabet = ['c=', 'c-', 'd-', 'lj', 'nj', 's=', 'z='];
 
-while (true) {
-	const ten = parseInt(num / 10);
-	const one = num % 10;
-	const afterOne = (ten + one) % 10;
-	num = one * 10 + afterOne;
-	count++;
-	if (prevNum === num) {
-		break;
+function check2(input) {
+	if (!input) {
+		console.log(count);
+		return;
+	}
+	const cur = input.slice(0, 2);
+	if (ctAlphabet.indexOf(cur) !== -1) {
+		count += 1;
+		return check2(input.slice(2));
+	} else if (cur === 'dz') {
+		return check3(input.slice(0));
+	} else {
+		count += 1;
+		return check2(input.slice(1));
 	}
 }
 
-console.log(count);
+function check3(input) {
+	if (input.slice(0, 3) === 'dz=') {
+		count += 1;
+		return check2(input.slice(3));
+	} else {
+		return check2(input);
+	}
+}
+
+check2(input);
 
 // ----------------- check time -----------------
 let end = new Date();
