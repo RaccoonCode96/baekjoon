@@ -150,3 +150,77 @@ const res = input[0].split('').map((item) => newSec[item]); // case2 일때 sec�
 console.log(res.reduce((prev, cur) => prev + cur, 0));
 
 // (9) 크로아티아 알파벳
+// 실패 case01 (재귀법, tastcase가 많은 경우 콜스택 부족으로 실패)
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+let input = fs.readFileSync(filePath).toString().trim().split('\n');
+input = input[0];
+let count = 0;
+const ctAlphabet = ['c=', 'c-', 'd-', 'lj', 'nj', 's=', 'z='];
+
+function check2(input) {
+	if (!input) {
+		console.log(count);
+		return;
+	}
+	const cur = input.slice(0, 2);
+	if (ctAlphabet.indexOf(cur) !== -1) {
+		count += 1;
+		return check2(input.slice(2));
+	} else if (cur === 'dz') {
+		return check3(input.slice(0));
+	} else {
+		count += 1;
+		return check2(input.slice(1));
+	}
+}
+
+function check3(input) {
+	if (input.slice(0, 3) === 'dz=') {
+		count += 1;
+		return check2(input.slice(3));
+	} else {
+		return check2(input);
+	}
+}
+
+check2(input);
+
+// case 백준 모범 답안 (replace 방식)
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+let input = fs.readFileSync(filePath).toString().trim().split('\n');
+input = input[0];
+const ctAlphabets = ['c=', 'c-', 'dz=', 'd-', 'lj', 'nj', 's=', 'z='];
+for (let alphabet of ctAlphabets) {
+	input = input.split(alphabet).join('Q');
+}
+console.log(input.length);
+
+// (10) 그룹 단어 체커
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+let input = fs.readFileSync(filePath).toString().trim().split('\n');
+let count = 0;
+
+for (let i = 1; i < input.length; i++) {
+	const rowSet = new Set([]);
+	const row = input[i].trim().split('');
+	let isGroup = true;
+
+	for (let i = 0; i < row.length; i++) {
+		const cur = row[i];
+		const prev = i === 0 ? 0 : row[i - 1];
+		if (cur !== prev && rowSet.has(cur)) {
+			isGroup = false;
+			break;
+		}
+		rowSet.add(cur);
+	}
+
+	if (isGroup) {
+		count += 1;
+	}
+}
+
+console.log(count);
