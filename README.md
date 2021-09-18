@@ -20,3 +20,9 @@ let input = fs.readFileSync(filePath).toString().split('\n');
 - 기본 입출력 문제 (11개)
 - if 조건문 문제 (5 개)
 - for, while 반복문 문제 (11문제 + 3문제)
+
+## 2021.09.18
+
+- 1차원 배열 문제 (7개)
+- 함수 문제 (2개)
+- 문자열 문제 (8 / 10개)
